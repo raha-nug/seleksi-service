@@ -1,0 +1,128 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum StatusUjian {
+  BELUM_DIMULAI
+  SEDANG_BERLANGSUNG
+  SELESAI_DIKERJAKAN
+}
+
+enum StatusKelulusan {
+  LULUS
+  TIDAK_LULUS
+  CADANGAN
+}
+
+// Model yang merepresentasikan sesi ujian untuk satu peserta
+model SesiUjianPeserta {
+  id                  String      @id @default(cuid())
+  jadwalSeleksiId     String
+  jadwalSeleksi       JadwalSeleksi @relation(fields: [jadwalSeleksiId], references: [id])
+
+  // REFERENSI ke Pendaftaran Service dan User Service
+  pendaftaranId       String      @unique
+  calonMahasiswaId    String
+
+  nomorPeserta        String      @unique
+  statusUjian         StatusUjian @default(BELUM_DIMULAI)
+  jawabanPeserta      Json?       // Tempat menyimpan jawaban tes online
+  skorUjian           Float?      // Skor setelah divalidasi/dinilai
+  waktuMulai          DateTime?
+  waktuSelesai        DateTime?
+
+  @@map("sesi_ujian_peserta")
+  @@index([calonMahasiswaId])
+}
+
+// Model untuk menyimpan hasil akhir keputusan kelulusan
+model HasilSeleksi {
+  id                      String          @id @default(cuid())
+  // REFERENSI ke Pendaftaran Service dan User Service
+  pendaftaranId           String          @unique
+  calonMahasiswaId        String
+
+  statusKelulusan         StatusKelulusan
+  // REFERENSI ke ProgramStudi di Konfigurasi Service
+  programStudiDiterimaId  String?
+  catatanAdmin            String?
+  adminPemutusId          String
+  tanggalKeputusan        DateTime        @default(now())
+
+  @@map("hasil_seleksi")
+  @@index([calonMahasiswaId])
+}
+
+
+
+
+// Model baru untuk menyimpan butir-butir soal
+model BankSoal {
+  id             String @id @default(cuid())
+  pertanyaan     String @db.Text
+  pilihanJawaban Json   // e.g., [{ "id": "A", "teks": "Jawaban A" }, ...]
+  kunciJawaban   String // e.g., "A"
+  adminPembuatId String
+
+  // Relasi ke tabel penghubung
+  soalPadaSet    SoalUjianSetItem[]
+
+  @@map("bank_soal")
+}
+
+// Model baru untuk mengelompokkan soal menjadi satu set ujian
+model SoalUjianSet {
+  id             String    @id @default(cuid())
+  namaSet        String    // e.g., "Paket Ujian Tulis PMB Gelombang 1 2025"
+  deskripsi      String?
+  adminPembuatId String
+  
+  // Relasi ke tabel penghubung
+  itemsSoal      SoalUjianSetItem[]
+  // Relasi ke Jadwal yang menggunakan set soal ini
+  digunakanDiJadwal JadwalSeleksi[]
+
+  @@map("soal_ujian_set")
+}
+
+// Tabel penghubung antara SoalUjianSet dan BankSoal
+model SoalUjianSetItem {
+  id             String      @id @default(cuid())
+  soalUjianSetId String
+  soalUjianSet   SoalUjianSet @relation(fields: [soalUjianSetId], references: [id])
+  bankSoalId     String
+  bankSoal       BankSoal    @relation(fields: [bankSoalId], references: [id])
+
+  @@map("soal_ujian_set_item")
+}
+
+// Model JadwalSeleksi yang diperbarui
+model JadwalSeleksi {
+  id             String    @id @default(cuid())
+  gelombangId    String
+  namaSeleksi    String
+  tanggalMulai   DateTime
+  tanggalSelesai DateTime
+  durasiMenit    Int       // DURASI untuk countdown
+  adminPembuatId String
+
+  // Relasi ke Set Soal yang akan digunakan
+  soalUjianSetId String?
+  soalUjianSet   SoalUjianSet? @relation(fields: [soalUjianSetId], references: [id])
+
+  sesiUjianPeserta SesiUjianPeserta[]
+
+  @@map("jadwal_seleksi")
+}
+

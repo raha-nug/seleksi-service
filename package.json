@@ -1,0 +1,23 @@
+{
+  "name": "seleksi-service",
+  "version": "1.0.0",
+  "description": "Service untuk menangani semua hal tentang seleksi",
+  "license": "ISC",
+  "author": "Rival Nugraha",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "server.js",
+    "vercel-build": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.12.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "prisma": "^6.12.0"
+  }
+}
