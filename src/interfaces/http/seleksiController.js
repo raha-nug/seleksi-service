@@ -316,6 +316,20 @@ export const finalisasiKelulusan = async (req, res) => {
         method: "POST",
       }
     );
+    await fetch(
+      `${process.env.NOTIFIKASI_SERVICE_URL}/api/notifikasi/handle-event`,
+      {
+        body: {
+          eventType: "",
+          payload: {
+            email: req.user.email,
+            nama: req.user.nama,
+            statusKelulusan: hasil.statusKelulusan,
+          },
+        },
+        method: "POST",
+      }
+    );
 
     res
       .status(201)
