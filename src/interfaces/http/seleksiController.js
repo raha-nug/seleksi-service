@@ -260,28 +260,7 @@ export const deleteJadwalSeleksi = async (req, res) => {
 
 export const handleInisiasiSeleksi = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
-
-    const pendaftaranRes = await fetch(
-      `${process.env.PENDAFTARAN_SERVICE_URL}/api/verifyPendaftaran/${req.body.pendaftaranId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const pendaftaran = await pendaftaranRes.json();
-
-    if (pendaftaran.message !== "Terverifikasi") {
-      return res.status(401).json({ message: "Id pendaftaran tidak valid" });
-    }
-
-    const useCaseData = {
-      ...req.body,
-      calonMahasiswaId: req.user.id,
-    };
-
-    const sesi = await appService.inisiasiSeleksiUseCase(useCaseData);
+    const sesi = await appService.inisiasiSeleksiUseCase(req.body);
     res
       .status(201)
       .json({ message: "Sesi seleksi berhasil diinisiasi.", data: sesi });
