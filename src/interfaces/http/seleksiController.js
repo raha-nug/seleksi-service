@@ -305,6 +305,18 @@ export const finalisasiKelulusan = async (req, res) => {
       keputusan: req.body.keputusan,
       adminId: req.user.id,
     });
+
+    await fetch(
+      `${process.env.PEMBAYARAN_SERVICE_URL}/api/pembayaran/internal/create-tagihan`,
+      {
+        body: {
+          pendaftaranId: hasil.pendaftaranId,
+          calonMahasiswaId: hasil.calonMahasiswaId,
+        },
+        method: "POST",
+      }
+    );
+
     res
       .status(201)
       .json({ message: "Hasil kelulusan berhasil difinalisasi.", data: hasil });
