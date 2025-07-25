@@ -309,24 +309,30 @@ export const finalisasiKelulusan = async (req, res) => {
     await fetch(
       `${process.env.PEMBAYARAN_SERVICE_URL}/api/pembayaran/internal/create-tagihan`,
       {
-        body: {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           pendaftaranId: hasil.pendaftaranId,
           calonMahasiswaId: hasil.calonMahasiswaId,
-        },
+        }),
         method: "POST",
       }
     );
     await fetch(
       `${process.env.NOTIFIKASI_SERVICE_URL}/api/notifikasi/handle-event`,
       {
-        body: {
-          eventType: "",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          eventType: "HasilSeleksiDiterbitkanEvent",
           payload: {
             email: req.user.email,
             nama: req.user.nama,
             statusKelulusan: hasil.statusKelulusan,
           },
-        },
+        }),
         method: "POST",
       }
     );
