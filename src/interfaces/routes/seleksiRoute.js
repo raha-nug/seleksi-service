@@ -150,7 +150,7 @@ router.post(
 router.get(
   "/sesi/:pendaftaranId",
   authenticateToken,
-  controller.startUjian
+  controller.getSeleksiUjianByPendaftaranId
 );
 // Submit Jawaban
 router.post(
