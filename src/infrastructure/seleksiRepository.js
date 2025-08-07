@@ -163,7 +163,13 @@ export const findSesiUjianById = async (id) =>
   prisma.sesiUjianPeserta.findUnique({ where: { id } });
 
 export const findSesiUjianByPendaftaranId = async (pendaftaranId) =>
-  prisma.sesiUjianPeserta.findUnique({ where: { pendaftaranId } });
+  prisma.sesiUjianPeserta.findUnique({
+    where: { pendaftaranId },
+    include: {
+      jadwalSeleksi: true,
+      
+    },
+  });
 
 export const saveHasilSeleksi = async (data) =>
   prisma.hasilSeleksi.create({ data });

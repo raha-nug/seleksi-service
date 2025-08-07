@@ -147,6 +147,11 @@ router.post(
   authenticateToken,
   controller.startUjian
 );
+router.get(
+  "/sesi/:pendaftaranId",
+  authenticateToken,
+  controller.startUjian
+);
 // Submit Jawaban
 router.post(
   "/sesi/:sesiUjianId/submit",

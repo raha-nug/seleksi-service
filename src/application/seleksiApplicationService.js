@@ -278,6 +278,12 @@ export const submitUjianUseCase = async ({
   return sesiUpdate;
 };
 
+export const findSesiUjianByPendaftaranIdUseCase = async (pendaftaranId)=>{
+  const sesiUjian = await repository.findSesiUjianByPendaftaranId(pendaftaranId)
+  return sesiUjian
+}
+
+
 export const finalisasiKelulusanUseCase = async ({
   pendaftaranId,
   adminId,

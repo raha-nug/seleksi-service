@@ -298,6 +298,20 @@ export const submitUjian = async (req, res) => {
   }
 };
 
+export const getSeleksiUjianByPendaftaranId = async (req, res) => {
+  try {
+    const sesi = await appService.findSesiUjianByPendaftaranIdUseCase(
+      req.params.pendaftaranId
+    );
+    res.status(200).json({
+      message: "Sesi berhasil didapatkan",
+      data: sesi,
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 export const finalisasiKelulusan = async (req, res) => {
   try {
     const hasil = await appService.finalisasiKelulusanUseCase({
