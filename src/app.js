@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use("/api/seleksi", authenticateToken, seleksiRoute);
+app.use("/api/seleksi", seleksiRoute);
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Selamat datang di service seleksi" });
