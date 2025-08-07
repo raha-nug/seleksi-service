@@ -191,9 +191,9 @@ export const startUjianUseCase = async ({ sesiUjianId, userId }) => {
   if (!sesiUjian || sesiUjian.calonMahasiswaId !== userId) {
     throw new Error("Sesi ujian tidak valid atau akses ditolak.");
   }
-  // if (sesiUjian.statusUjian !== "BELUM_DIMULAI") {
-  //   throw new Error("Ujian sudah pernah dimulai atau selesai.");
-  // }
+  if (sesiUjian.statusUjian === "SELESAI_DIKERJAKAN") {
+    throw new Error("Ujian sudah pernah dimulai atau selesai.");
+  }
 
   const jadwal = await repository.getJadwalSeleksiById(
     sesiUjian.jadwalSeleksiId
@@ -300,7 +300,7 @@ export const finalisasiKelulusanUseCase = async ({
     pendaftaranId: sesiUjian.pendaftaranId,
     calonMahasiswaId: sesiUjian.calonMahasiswaId,
     skor: sesiUjian.skorUjian,
-    programStudiPilihanId: keputusan.programStudiDiterimaId, // Dari request admin
+    programStudiPilihanId: keputusan?.programStudiDiterimaId, // Dari request admin
     adminId,
   });
 
