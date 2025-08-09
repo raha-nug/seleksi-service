@@ -280,6 +280,7 @@ export const submitUjianUseCase = async ({
 
 export const findSesiUjianByPendaftaranIdUseCase = async (pendaftaranId)=>{
   const sesiUjian = await repository.findSesiUjianByPendaftaranId(pendaftaranId)
+  if(!sesiUjian) throw Error("Data tidak ditemukan")
   return sesiUjian
 }
 
