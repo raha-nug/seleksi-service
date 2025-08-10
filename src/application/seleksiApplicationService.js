@@ -23,7 +23,7 @@ export const getAllSoalUseCase = async () => {
 };
 
 export const getSoalByIdUseCase = async (soalId) => {
-  const isExist = await repository.getBankSoalById(data.id);
+  const isExist = await repository.getBankSoalById(soalId);
 
   if (!isExist) {
     throw new Error("Data tidak ditemukan");
@@ -32,7 +32,7 @@ export const getSoalByIdUseCase = async (soalId) => {
   return repository.getBankSoalById(soalId);
 };
 export const deleteSoalUseCase = async (soalId) => {
-  const isExist = await repository.getBankSoalById(data.id);
+  const isExist = await repository.getBankSoalById(soalId);
 
   if (!isExist) {
     throw new Error("Data tidak ditemukan");
@@ -237,13 +237,13 @@ export const submitUjianUseCase = async ({
   // 1. Cek sesi ujian valid
   const sesiUjian = await repository.findSesiUjianById(sesiUjianId);
 
-  // if (
-  //   !sesiUjian ||
-  //   sesiUjian.calonMahasiswaId !== userId ||
-  //   sesiUjian.statusUjian !== "SEDANG_BERLANGSUNG"
-  // ) {
-  //   throw new Error("Tidak dapat submit jawaban untuk sesi ini.");
-  // }
+  if (
+    !sesiUjian ||
+    sesiUjian.calonMahasiswaId !== userId ||
+    sesiUjian.statusUjian !== "SEDANG_BERLANGSUNG"
+  ) {
+    throw new Error("Tidak dapat submit jawaban untuk sesi ini.");
+  }
 
   // 2. Ambil info jadwal ujian dan validasi waktu selesai
   const jadwal = await repository.getJadwalSeleksiById(
