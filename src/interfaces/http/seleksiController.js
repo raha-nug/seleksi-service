@@ -338,36 +338,36 @@ export const finalisasiKelulusan = async (req, res) => {
       adminId: req.user.id,
     });
 
-    await fetch(
-      `${process.env.PEMBAYARAN_SERVICE_URL}/api/pembayaran/internal/create-tagihan`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          pendaftaranId: hasil.pendaftaranId,
-          calonMahasiswaId: hasil.calonMahasiswaId,
-        }),
-        method: "POST",
-      }
-    );
-    await fetch(
-      `${process.env.NOTIFIKASI_SERVICE_URL}/api/notifikasi/handle-event`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          eventType: "HasilSeleksiDiterbitkanEvent",
-          payload: {
-            email: req.user.email,
-            nama: req.user.nama,
-            statusKelulusan: hasil.statusKelulusan,
-          },
-        }),
-        method: "POST",
-      }
-    );
+    // await fetch(
+    //   `${process.env.PEMBAYARAN_SERVICE_URL}/api/pembayaran/internal/create-tagihan`,
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       pendaftaranId: hasil.pendaftaranId,
+    //       calonMahasiswaId: hasil.calonMahasiswaId,
+    //     }),
+    //     method: "POST",
+    //   }
+    // );
+    // await fetch(
+    //   `${process.env.NOTIFIKASI_SERVICE_URL}/api/notifikasi/handle-event`,
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       eventType: "HasilSeleksiDiterbitkanEvent",
+    //       payload: {
+    //         email: req.user.email,
+    //         nama: req.user.nama,
+    //         statusKelulusan: hasil.statusKelulusan,
+    //       },
+    //     }),
+    //     method: "POST",
+    //   }
+    // );
 
     res
       .status(201)

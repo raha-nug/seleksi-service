@@ -293,7 +293,8 @@ export const findSesiUjianByPendaftaranIdUseCase = async (pendaftaranId) => {
   return sesiUjian;
 };
 
-export const finalisasiKelulusanUseCase = async (data, adminId) => {
+export const finalisasiKelulusanUseCase = async ({ data, adminId }) => {
+  console.log(data);
   const sesiUjian = await repository.findSesiUjianByPendaftaranId(
     data.pendaftaranId
   );
