@@ -96,8 +96,15 @@ export const deleteSoalSetUseCase = async (soalSetId) => {
 */
 
 export const addSoalToSetUseCase = async (soalSetId, bankSoalId) => {
-  // Di sini bisa ditambahkan logika untuk memeriksa apakah soal dan set ada sebelum menambahkan
   return repository.addSoalToSet(soalSetId, bankSoalId);
+};
+
+export const listSoalSetItemsUseCase = async (setId) => {
+  return repository.findSoalSetItem(setId);
+};
+
+export const deleteSoalSetItemUseCase = async (itemId) => {
+  return repository.deleteSoalSetItem(itemId);
 };
 
 /*
@@ -278,12 +285,13 @@ export const submitUjianUseCase = async ({
   return sesiUpdate;
 };
 
-export const findSesiUjianByPendaftaranIdUseCase = async (pendaftaranId)=>{
-  const sesiUjian = await repository.findSesiUjianByPendaftaranId(pendaftaranId)
-  if(!sesiUjian) throw Error("Data tidak ditemukan")
-  return sesiUjian
-}
-
+export const findSesiUjianByPendaftaranIdUseCase = async (pendaftaranId) => {
+  const sesiUjian = await repository.findSesiUjianByPendaftaranId(
+    pendaftaranId
+  );
+  if (!sesiUjian) throw Error("Data tidak ditemukan");
+  return sesiUjian;
+};
 
 export const finalisasiKelulusanUseCase = async ({
   pendaftaranId,

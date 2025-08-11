@@ -95,6 +95,18 @@ router.post(
   requireAdmin,
   controller.addSoalToSet
 );
+router.get(
+  "/soal-set/:setId/items",
+  authenticateToken,
+  requireAdmin,
+  controller.listSoalSetItems
+);
+router.delete(
+  "/soal-set/item/:itemId",
+  authenticateToken,
+  requireAdmin,
+  controller.deleteSoalSetItem
+);
 
 /*
 

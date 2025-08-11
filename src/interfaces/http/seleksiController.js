@@ -135,6 +135,27 @@ export const addSoalToSet = async (req, res) => {
   }
 };
 
+
+export const listSoalSetItems = async (req, res) => {
+  try {
+    const { setId } = req.params;
+    const items = await appService.listSoalSetItemsUseCase(setId);
+    res.status(200).json({ data: items });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+
+export const deleteSoalSetItem = async (req, res) => {
+  try {
+    const { itemId } = req.params;
+    await appService.deleteSoalSetItemUseCase(itemId);
+    res.status(200).json({ message: "Soal berhasil dihapus dari set." });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
 /*
 
 

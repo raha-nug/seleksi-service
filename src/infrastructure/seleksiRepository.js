@@ -82,6 +82,30 @@ export const addSoalToSet = async (soalUjianSetId, bankSoalId) => {
   });
 };
 
+export const findSoalSetItem = async (setId) => {
+  const items = await prisma.soalUjianSetItem.findMany({
+    where: {
+      soalUjianSetId: setId,
+    },
+    include: {
+      bankSoal: true,
+    },
+    orderBy: {
+      createdAt: "asc", // Kalau ada field createdAt, kalau belum, bisa dihilangkan
+    },
+  });
+
+  return items;
+};
+
+export const deleteSoalSetItem = async (itemId) => {
+  const item = await prisma.soalUjianSetItem.delete({
+    where: { id: itemId },
+  });
+
+  return item;
+};
+
 /*
 
 
@@ -167,7 +191,6 @@ export const findSesiUjianByPendaftaranId = async (pendaftaranId) =>
     where: { pendaftaranId },
     include: {
       jadwalSeleksi: true,
-      
     },
   });
 
