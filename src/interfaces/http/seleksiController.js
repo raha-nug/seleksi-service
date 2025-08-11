@@ -135,7 +135,6 @@ export const addSoalToSet = async (req, res) => {
   }
 };
 
-
 export const listSoalSetItems = async (req, res) => {
   try {
     const { setId } = req.params;
@@ -145,7 +144,6 @@ export const listSoalSetItems = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
-
 
 export const deleteSoalSetItem = async (req, res) => {
   try {
@@ -388,6 +386,54 @@ export const getHasilKelulusan = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+export const getAllHasilSeleksi = async (req, res) => {
+  try {
+    const hasil = await appService.getAllHasilSeleksiUseCase();
+    res.status(200).json({
+      message: "Sesi berhasil didapatkan",
+      data: hasil,
+    });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+export const getHasilSeleksiById = async (req, res) => {
+  try {
+    const hasil = await appService.getHasilSeleksiByIdUseCase(
+      req.params.seleksiId
+    );
+    res.status(200).json({
+      message: "Sesi berhasil didapatkan",
+      data: hasil,
+    });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+export const updateHasilSeleksi = async (req, res) => {
+  try {
+    const hasil = await appService.updateHasilSeleksiUseCase(
+      req.params.seleksiId
+    );
+    res.status(200).json({
+      message: "Sesi berhasil diubah",
+      data: hasil,
+    });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+export const deleteHasilSeleksi = async (req, res) => {
+  try {
+    await appService.deleteHasilSeleksiUseCase(req.params.seleksiId);
+    res.status(200).json({
+      message: "Sesi berhasil dihapus",
+    });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
 export const getAllSesi = async (req, res) => {
   try {
     const hasil = await appService.getAllSesiUseCase();

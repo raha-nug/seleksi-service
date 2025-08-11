@@ -194,6 +194,17 @@ export const findSesiUjianByPendaftaranId = async (pendaftaranId) =>
 export const saveHasilSeleksi = async (data) =>
   prisma.hasilSeleksi.create({ data });
 
+export const getAllHasilSeleksi = async () => prisma.hasilSeleksi.findMany();
+
+export const getHasilSeleksiById = async (seleksiId) =>
+  prisma.hasilSeleksi.findUnique({ where: { id: seleksiId } });
+
+export const updateHasilSeleksi = async (seleksiId, data) =>
+  prisma.hasilSeleksi.update({ where: { id: seleksiId }, data });
+
+export const deleteHasilSeleksi = async (seleksiId) =>
+  prisma.hasilSeleksi.delete({ where: { id: seleksiId } });
+
 export const findHasilSeleksiByCalonMahasiswaId = async (calonMahasiswaId) =>
   prisma.hasilSeleksi.findFirst({ where: { calonMahasiswaId } });
 

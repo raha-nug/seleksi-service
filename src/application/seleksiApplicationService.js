@@ -329,3 +329,19 @@ export const getAllSesiUseCase = async () => {
   const hasil = await repository.getAllSesi();
   return hasil;
 };
+export const getAllHasilSeleksiUseCase = async () => {
+  const hasil = await repository.getAllHasilSeleksi();
+  return hasil;
+};
+export const getHasilSeleksiByIdUseCase = async (seleksiId) => {
+  const hasil = await repository.getHasilSeleksiById(seleksiId);
+  return hasil;
+};
+export const updateHasilSeleksiUseCase = async (seleksiId,data) => {
+  const hasil = await repository.updateHasilSeleksi(seleksiId,data);
+  return hasil;
+};
+export const deleteHasilSeleksiUseCase = async (seleksiId) => {
+  const hasil = await repository.deleteHasilSeleksi(seleksiId);
+  return hasil;
+};

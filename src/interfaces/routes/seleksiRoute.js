@@ -175,8 +175,12 @@ router.get("/hasil/saya", authenticateToken, controller.getHasilKelulusan);
 router.get("/sesi", authenticateToken, controller.getAllSesi);
 
 // Endpoint untuk admin memfinalisasi kelulusan (A8)
+router.get("/hasil-seleksi", authenticateToken, controller.getAllHasilSeleksi);
+router.get("/hasil-seleksi/:seleksiId", authenticateToken, controller.getHasilSeleksiById);
+router.put("/hasil-seleksi/:seleksiId", authenticateToken, controller.updateHasilSeleksi);
+router.delete("/hasil-seleksi/:seleksiId", authenticateToken, controller.deleteHasilSeleksi);
 router.post(
-  "/hasil/finalisasi",
+  "/hasil-seleksi",
   authenticateToken,
   requireAdmin,
   controller.finalisasiKelulusan
