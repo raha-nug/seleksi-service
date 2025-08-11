@@ -90,9 +90,6 @@ export const findSoalSetItem = async (setId) => {
     include: {
       bankSoal: true,
     },
-    orderBy: {
-      createdAt: "asc", // Kalau ada field createdAt, kalau belum, bisa dihilangkan
-    },
   });
 
   return items;
