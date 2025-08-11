@@ -32,14 +32,7 @@ export const createJadwalSeleksi = ({
   soalUjianSetId,
   adminId,
 }) => {
-  function parseTanggalIndonesia(tanggalStr) {
-    const [dd, mm, yyyy] = tanggalStr.split("/");
-    return new Date(`${yyyy}-${mm}-${dd}`).toISOString();
-  }
-
-  const formattedTanggalMulai = parseTanggalIndonesia(tanggalMulai);
-  const formattedTanggalSelesai = parseTanggalIndonesia(tanggalSelesai);
-
+  
   if (
     !namaSeleksi ||
     !tanggalMulai ||
@@ -55,8 +48,8 @@ export const createJadwalSeleksi = ({
   return {
     namaSeleksi,
     gelombangId,
-    tanggalMulai: formattedTanggalMulai,
-    tanggalSelesai: formattedTanggalSelesai,
+    tanggalMulai,
+    tanggalSelesai,
     durasiMenit,
     soalUjianSetId,
     adminPembuatId: adminId,
