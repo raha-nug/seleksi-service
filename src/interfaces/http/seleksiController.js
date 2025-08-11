@@ -334,8 +334,7 @@ export const getSeleksiUjianByPendaftaranId = async (req, res) => {
 export const finalisasiKelulusan = async (req, res) => {
   try {
     const hasil = await appService.finalisasiKelulusanUseCase({
-      pendaftaranId: req.body.pendaftaranId,
-      keputusan: req.body.keputusan,
+      data: req.body,
       adminId: req.user.id,
     });
 
@@ -413,7 +412,8 @@ export const getHasilSeleksiById = async (req, res) => {
 export const updateHasilSeleksi = async (req, res) => {
   try {
     const hasil = await appService.updateHasilSeleksiUseCase(
-      req.params.seleksiId
+      req.params.seleksiId,
+      req.body
     );
     res.status(200).json({
       message: "Sesi berhasil diubah",

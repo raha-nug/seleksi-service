@@ -32,7 +32,6 @@ export const createJadwalSeleksi = ({
   soalUjianSetId,
   adminId,
 }) => {
-  
   if (
     !namaSeleksi ||
     !tanggalMulai ||
@@ -74,24 +73,19 @@ export const nilaiUjian = (jawabanPeserta, kunciJawaban) => {
 
 export function buatKeputusanKelulusan({
   pendaftaranId,
+  statusKelulusan,
   calonMahasiswaId,
-  skor,
-  programStudiPilihanId,
   adminId,
+  programStudiDiterimaId,
+  catatanAdmin,
 }) {
-  // Aturan: Jika skor < 0.5 maka tidak lulus
-  const statusKelulusan =
-    skor >= 0.7 ? "LULUS" : skor >= 0.5 ? "CADANGAN" : "TIDAK_LULUS";
-
   return {
     pendaftaranId,
     calonMahasiswaId,
     statusKelulusan,
-    programStudiDiterimaId:
-      statusKelulusan === "LULUS" ? programStudiPilihanId : null,
-    catatanAdmin: null,
+    programStudiDiterimaId,
+    catatanAdmin,
     adminPemutusId: adminId,
     tanggalKeputusan: new Date(),
   };
 }
-

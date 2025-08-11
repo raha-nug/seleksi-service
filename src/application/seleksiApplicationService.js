@@ -293,23 +293,18 @@ export const findSesiUjianByPendaftaranIdUseCase = async (pendaftaranId) => {
   return sesiUjian;
 };
 
-export const finalisasiKelulusanUseCase = async ({
-  pendaftaranId,
-  adminId,
-  keputusan,
-}) => {
+export const finalisasiKelulusanUseCase = async (data, adminId) => {
   const sesiUjian = await repository.findSesiUjianByPendaftaranId(
-    pendaftaranId
+    data.pendaftaranId
   );
   if (!sesiUjian || sesiUjian.statusUjian !== "SELESAI_DIKERJAKAN") {
     throw new Error("Sesi ujian belum selesai dan tidak bisa difinalisasi.");
   }
 
   const keputusanData = domain.buatKeputusanKelulusan({
+    ...data,
     pendaftaranId: sesiUjian.pendaftaranId,
     calonMahasiswaId: sesiUjian.calonMahasiswaId,
-    skor: sesiUjian.skorUjian,
-    programStudiPilihanId: keputusan?.programStudiDiterimaId, // Dari request admin
     adminId,
   });
 
@@ -337,8 +332,8 @@ export const getHasilSeleksiByIdUseCase = async (seleksiId) => {
   const hasil = await repository.getHasilSeleksiById(seleksiId);
   return hasil;
 };
-export const updateHasilSeleksiUseCase = async (seleksiId,data) => {
-  const hasil = await repository.updateHasilSeleksi(seleksiId,data);
+export const updateHasilSeleksiUseCase = async (seleksiId, data) => {
+  const hasil = await repository.updateHasilSeleksi(seleksiId, data);
   return hasil;
 };
 export const deleteHasilSeleksiUseCase = async (seleksiId) => {
