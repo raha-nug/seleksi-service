@@ -130,6 +130,9 @@ export const updateJadwalSeleksiUseCase = async (data, adminId) => {
   return repository.updateJadwalSeleksi(data.id, jadwalData);
 };
 
+export const getJadwalSeleksiByGelombangIdUseCase = async (gelombangId) => {
+  return repository.findJadwalByGelombangId(gelombangId);
+};
 export const getAllJadwalSeleksiUseCase = async () => {
   return repository.getAllJadwalSeleksi();
 };

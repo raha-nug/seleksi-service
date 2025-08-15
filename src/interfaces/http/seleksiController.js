@@ -243,6 +243,19 @@ export const getAllJadwal = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+export const getJadwalSeleksiByGelombangId = async (req, res) => {
+  try {
+    const jadwal = await appService.getJadwalSeleksiByGelombangIdUseCase(
+      req.params.gelombangId
+    );
+
+    res
+      .status(200)
+      .json({ message: "Berhasil mendapatkan jadwal.", data: jadwal });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
 export const getJadwalSeleksiById = async (req, res) => {
   try {
     const jadwal = await appService.getJadwalSeleksiByIdUseCase(
@@ -338,7 +351,6 @@ export const finalisasiKelulusan = async (req, res) => {
       adminId: req.user.id,
     });
 
-
     const token = req.headers.authorization?.split(" ")[1];
 
     const resMhs = await fetch(
@@ -352,7 +364,6 @@ export const finalisasiKelulusan = async (req, res) => {
     );
 
     const mhs = await resMhs.json();
-
 
     const tagihanRes = await fetch(
       `${process.env.PEMBAYARAN_SERVICE_URL}/api/pembayaran/internal/create-tagihan`,
@@ -388,7 +399,7 @@ export const finalisasiKelulusan = async (req, res) => {
       }
     );
 
-     res
+    res
       .status(201)
       .json({ message: "Hasil kelulusan berhasil difinalisasi.", data: hasil });
   } catch (error) {

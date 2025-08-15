@@ -129,6 +129,7 @@ router.put(
   controller.updateJadwal
 );
 router.get("/jadwal", authenticateToken, requireAdmin, controller.getAllJadwal);
+router.get("/jadwal/:gelombangId/gelombang", authenticateToken, controller.getAllJadwal);
 router.get(
   "/jadwal/:jadwalId",
   authenticateToken,
