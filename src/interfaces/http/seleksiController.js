@@ -338,6 +338,20 @@ export const finalisasiKelulusan = async (req, res) => {
       adminId: req.user.id,
     });
 
+    const token = req.headers.authorization?.split(" ")[1];
+
+    const resMhs = await fetch(
+      `${process.env.PENDAFTARAN_SERVICE_URL}/api/pendaftaran/${hasil.calonMahasiswaId}/mhs-id`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const mhs = resMhs.json();
+
     await fetch(
       `${process.env.PEMBAYARAN_SERVICE_URL}/api/pembayaran/internal/create-tagihan`,
       {
@@ -360,8 +374,8 @@ export const finalisasiKelulusan = async (req, res) => {
         body: JSON.stringify({
           eventType: "HasilSeleksiDiterbitkanEvent",
           payload: {
-            email: req.user.email,
-            nama: req.user.nama,
+            email: mhs.data.dataFormulir.email_aktif,
+            nama: mhs.data.dataFormulir.nama,
             statusKelulusan: hasil.statusKelulusan,
           },
         }),
