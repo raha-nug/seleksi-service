@@ -180,13 +180,8 @@ export const inisiasiSeleksiUseCase = async ({
     jadwal.tahunAkademik || new Date().getFullYear()
   }-${pendaftaranId.slice(-4)}`;
 
-  const waktuMulai = new Date();
-  const waktuSelesai = new Date(
-    waktuMulai.getTime() + jadwal.durasiMenit * 60000
-  );
+
   const sesiData = {
-    waktuMulai,
-    waktuSelesai,
     pendaftaranId,
     calonMahasiswaId,
     jadwalSeleksiId: jadwal.id,
