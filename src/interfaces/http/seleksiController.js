@@ -338,10 +338,11 @@ export const finalisasiKelulusan = async (req, res) => {
       adminId: req.user.id,
     });
 
+
     const token = req.headers.authorization?.split(" ")[1];
 
     const resMhs = await fetch(
-      `${process.env.PENDAFTARAN_SERVICE_URL}/api/pendaftaran/${hasil.calonMahasiswaId}/mhs-id`,
+      `${process.env.USER_SERVICE_URL}/api/users/${hasil.calonMahasiswaId}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -350,9 +351,10 @@ export const finalisasiKelulusan = async (req, res) => {
       }
     );
 
-    const mhs = resMhs.json();
+    const mhs = await resMhs.json();
 
-    await fetch(
+
+    const tagihanRes = await fetch(
       `${process.env.PEMBAYARAN_SERVICE_URL}/api/pembayaran/internal/create-tagihan`,
       {
         headers: {
@@ -365,6 +367,9 @@ export const finalisasiKelulusan = async (req, res) => {
         method: "POST",
       }
     );
+
+    const tagihan = await tagihanRes.json();
+
     await fetch(
       `${process.env.NOTIFIKASI_SERVICE_URL}/api/notifikasi/handle-event`,
       {
@@ -374,8 +379,8 @@ export const finalisasiKelulusan = async (req, res) => {
         body: JSON.stringify({
           eventType: "HasilSeleksiDiterbitkanEvent",
           payload: {
-            email: mhs.data.dataFormulir.email_aktif,
-            nama: mhs.data.dataFormulir.nama,
+            email: mhs.data.email,
+            nama: mhs.data.nama,
             statusKelulusan: hasil.statusKelulusan,
           },
         }),
@@ -383,7 +388,7 @@ export const finalisasiKelulusan = async (req, res) => {
       }
     );
 
-    res
+     res
       .status(201)
       .json({ message: "Hasil kelulusan berhasil difinalisasi.", data: hasil });
   } catch (error) {

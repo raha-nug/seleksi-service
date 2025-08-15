@@ -309,6 +309,10 @@ export const finalisasiKelulusanUseCase = async ({ data, adminId }) => {
     adminId,
   });
 
+  const validasiSesi = await repository.updateSesiUjian(sesiUjian.id, {
+    statusUjian: "SUDAH_DIVALIDASI",
+  });
+
   const hasilAkhir = await repository.saveHasilSeleksi(keputusanData);
   // publishEvent('HasilSeleksiDiterbitkanEvent', { ... });
   return hasilAkhir;

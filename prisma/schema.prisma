@@ -17,6 +17,7 @@ enum StatusUjian {
   BELUM_DIMULAI
   SEDANG_BERLANGSUNG
   SELESAI_DIKERJAKAN
+  SUDAH_DIVALIDASI
 }
 
 enum StatusKelulusan {
