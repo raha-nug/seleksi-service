@@ -164,24 +164,19 @@ export const deleteJadwalSeleksiUseCase = async (jadwalId) => {
 
 */
 
-export const inisiasiSeleksiUseCase = async ({
-  pendaftaranId,
-  calonMahasiswaId,
-  gelombangId,
-  nomorPeserta,
-}) => {
-  const jadwal = await repository.findJadwalByGelombangId(gelombangId);
+export const inisiasiSeleksiUseCase = async (data) => {
+  const jadwal = await repository.findJadwalByGelombangId(data.gelombangId);
   if (!jadwal) {
     throw new Error(
-      `Tidak ada jadwal seleksi aktif untuk gelombang ${gelombangId}.`
+      `Tidak ada jadwal seleksi aktif untuk gelombang ${data.gelombangId}.`
     );
   }
 
   const sesiData = {
-    pendaftaranId,
-    calonMahasiswaId,
+    pendaftaranId: data.pendaftaranId,
+    calonMahasiswaId: data.calonMahasiswaId,
     jadwalSeleksiId: jadwal.id,
-    nomorPeserta,
+    nomorPeserta: data.nomorPeserta,
   };
 
   return repository.createSesiUjian(sesiData);
