@@ -168,6 +168,7 @@ export const inisiasiSeleksiUseCase = async ({
   pendaftaranId,
   calonMahasiswaId,
   gelombangId,
+  nomorPeserta,
 }) => {
   const jadwal = await repository.findJadwalByGelombangId(gelombangId);
   if (!jadwal) {
@@ -175,11 +176,6 @@ export const inisiasiSeleksiUseCase = async ({
       `Tidak ada jadwal seleksi aktif untuk gelombang ${gelombangId}.`
     );
   }
-
-  const nomorPeserta = `PMB-${
-    jadwal.tahunAkademik || new Date().getFullYear()
-  }-${pendaftaranId.slice(-4)}`;
-
 
   const sesiData = {
     pendaftaranId,
